@@ -42,8 +42,8 @@ public class Card {
             switch (suitEnum) {
                 case SPADES -> this.suit = "\u2660";
                 case CLUBS -> this.suit = "\u2663";
-                case HEARTS -> this.suit = "\u2665";
-                case DIAMONDS -> this.suit = "\u2666";
+                case HEARTS -> this.suit = "\u001B[31m" + "\u2665" + "\u001B[0m";
+                case DIAMONDS -> this.suit = "\u001B[31m" + "\u2666" + "\u001B[0m";
             }
         }
 
