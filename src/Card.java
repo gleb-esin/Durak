@@ -12,7 +12,7 @@ public class Card {
     @Override
     public String toString() {
         if (this.suit.getSuit().equals("\u2665") || this.suit.getSuit().equals("\u2666")) {
-            return "\u001B[31m" + this.value + this.suit + "\u001B[0m";
+            return "\u001B[38;2;128;0;0;47m" + this.value + this.suit + "\u001B[0m";
         } else {
             return "\u001B[30;47m" + this.value + this.suit + "\u001B[0m";
         }
