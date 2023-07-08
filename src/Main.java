@@ -9,10 +9,13 @@ public class Main {
         Game game = new Game();
         game.addPlayer("Gleb");
         game.addPlayer("Alex");
+        game.setTrump();
         for (Player player:
                 game.getPlayers()) {
             System.out.println(player.toString());
         }
         System.out.println(game.getDeck().toString());
+        System.out.println("trump " + game.getTrump());
+
     }
 }
