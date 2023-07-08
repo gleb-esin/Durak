@@ -1,17 +1,19 @@
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class Player {
+public class Player implements Comparable<Player>{
+    static int id = 0;
     private String name;
     private List<Card> playerHand;
     private boolean isWinner = false;
      private int turn;
+     private int playerID;
+     private Integer minTrumpWeight;
 
 
     public Player(String name, List<Card> playerHand) {
         this.name = name;
         this.playerHand = playerHand;
+        this.playerID = id++;
     }
 
     public int getTurn() {
@@ -24,12 +26,31 @@ public class Player {
 
     @Override
     public String toString() {
-        Comparator<Card> cardComparator = Card::compareTo;
-        playerHand.sort(cardComparator);
-        return name + " " +playerHand;
+        return name + " " + playerHand;
     }
 
     public List<Card> getPlayerHand() {
         return playerHand;
     }
+
+    public int getPlayerId() {
+        return this.playerID;
+    }
+
+    public Integer getMinTrumpWeight() {
+        return minTrumpWeight;
+    }
+
+    public void setMinTrumpWeight(int minTrumpWeight) {
+        this.minTrumpWeight = minTrumpWeight;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        if (this.minTrumpWeight == o.minTrumpWeight) return 0;
+        else if (this.minTrumpWeight > o.minTrumpWeight) return 1;
+        else return -1;
+    }
+
+
 }

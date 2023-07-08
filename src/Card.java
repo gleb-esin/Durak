@@ -103,9 +103,9 @@ public class Card implements Comparable<Card> {
 
 
     class Value implements Comparable<Value> {
-        String value;
-        String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        int weigth;
+        private String value;
+        private String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+        private int weigth;
 
         public Value(String value) {
             this.value = value;
@@ -134,6 +134,10 @@ public class Card implements Comparable<Card> {
             } else if (this.weigth > o.weigth) {
                 return 1;
             } else return -1;
+        }
+
+        public int getWeigth() {
+            return weigth;
         }
     }
 
