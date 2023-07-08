@@ -5,6 +5,8 @@ public class Game {
     private Deck deck;
     private List<Player> players = new ArrayList<>();
     boolean isGameOver = false;
+    private Card.Suit trump;
+
 
     public Game() {
         this.deck = new Deck();
@@ -25,5 +27,13 @@ public class Game {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public void setTrump(){
+        this.trump = deck.getTrump();
+    }
+
+    public Card.Suit getTrump() {
+        return trump;
     }
 }

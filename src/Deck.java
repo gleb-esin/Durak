@@ -39,4 +39,9 @@ public class Deck {
         nextCardIndex++;
         return card;
     }
+    public Card.Suit getTrump(){
+        Card.Suit trump = this.deck.get(nextCardIndex).getSuit();
+        return trump;
+    }
+
 }
