@@ -54,10 +54,10 @@ public class Card implements Comparable<Card> {
 
         public Suit(SuitEnum suitEnum) {
             switch (suitEnum) {
-                case SPADES -> this.suit = "\u2660";
-                case CLUBS -> this.suit = "\u2663";
-                case HEARTS -> this.suit = "\u2665";
-                case DIAMONDS -> this.suit = "\u2666";
+                case SPADES -> this.suit = "♠";
+                case CLUBS -> this.suit = "♣";
+                case HEARTS -> this.suit = "♥";
+                case DIAMONDS -> this.suit = "♦";
             }
         }
 
@@ -93,7 +93,7 @@ public class Card implements Comparable<Card> {
         public int compareTo(Suit o) {
             if ((this.suit.equals(o.suit)) && this.isTrump == o.isTrump) {
                 return 0;
-            } else if (this.isTrump && !o.isTrump) {
+            } else if (this.isTrump == true && o.isTrump == false) {
                 return 1;
             } else {
                 return -1;
@@ -105,11 +105,11 @@ public class Card implements Comparable<Card> {
     class Value implements Comparable<Value> {
         private String value;
         private String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        private int weigth;
+        private int weight;
 
         public Value(String value) {
             this.value = value;
-            this.weigth = Arrays.asList(valuesArr).indexOf(value);
+            this.weight = Arrays.asList(valuesArr).indexOf(value);
         }
 
         @Override
@@ -119,7 +119,7 @@ public class Card implements Comparable<Card> {
 
             Value value = (Value) o;
 
-            return weigth == value.weigth;
+            return weight == value.weight;
         }
 
         @Override
@@ -129,15 +129,15 @@ public class Card implements Comparable<Card> {
 
         @Override
         public int compareTo(Value o) {
-            if (this.weigth == o.weigth) {
+            if (this.weight == o.weight) {
                 return 0;
-            } else if (this.weigth > o.weigth) {
+            } else if (this.weight > o.weight) {
                 return 1;
             } else return -1;
         }
 
-        public int getWeigth() {
-            return weigth;
+        public int getWeight() {
+            return weight;
         }
     }
 

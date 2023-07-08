@@ -22,7 +22,7 @@ public class Game {
             playerHand.add(deck.getNextCard());
         }
         Comparator<Card> cardComparator = Card::compareTo;
-        playerHand.sort(cardComparator.reversed());
+        playerHand.sort(cardComparator);
         this.players.add(new Player(name, playerHand));
     }
 
@@ -39,15 +39,15 @@ public class Game {
             for (int i = 0; i < player.getPlayerHand().size(); i++) {
                 if (player.getPlayerHand().get(i).getSuit().getTrump() == true) {
                     if (player.getMinTrumpWeight() == null){
-                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeigth());
+                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
                     } else {
-                        if (player.getMinTrumpWeight() > player.getPlayerHand().get(i).getValue().getWeigth()){
-                            player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeigth());
+                        if (player.getMinTrumpWeight() > player.getPlayerHand().get(i).getValue().getWeight()){
+                            player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
                         }
                     }
                 } else {
                     if (player.getMinTrumpWeight() == null) {
-                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeigth() + 100);
+                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight() + 100);
                     }
                 }
             }
