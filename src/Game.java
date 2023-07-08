@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Game {
@@ -10,6 +11,12 @@ public class Game {
 
     public Game() {
         this.deck = new Deck();
+        while (deck.hasNext()){
+            Card.Suit suit = deck.next().getSuit();
+            if(suit.equals(deck.getTrump())) {
+                suit.setTrump(true);
+            }
+        }
     }
 
     public void addPlayer (String name) {
@@ -29,11 +36,12 @@ public class Game {
         return deck;
     }
 
-    public void setTrump(){
-        this.trump = deck.getTrump();
-    }
 
     public Card.Suit getTrump() {
-        return trump;
+        return this.deck.getTrump();
+    }
+
+    public void setPlayersTurn (List<Player> players){
+
     }
 }

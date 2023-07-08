@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Card {
+public class Card implements Comparable<Card> {
     private Suit suit;
     private Value value;
 
@@ -37,7 +37,17 @@ public class Card {
         return value;
     }
 
-    class Suit {
+    @Override
+    public int compareTo(Card o) {
+        int suitComparison = this.suit.compareTo(o.suit);
+        if (suitComparison != 0) {
+            return suitComparison;
+        }
+        return this.value.compareTo(o.value);
+    }
+
+
+    class Suit implements Comparable<Suit> {
         private String suit;
         private boolean isTrump = false;
 
@@ -74,9 +84,25 @@ public class Card {
         public String getSuit() {
             return suit;
         }
+
+        public boolean getTrump() {
+            return isTrump;
+        }
+
+        @Override
+        public int compareTo(Suit o) {
+            if ((this.suit.equals(o.suit)) && this.isTrump == o.isTrump) {
+                return 0;
+            } else if (this.isTrump && !o.isTrump) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 
-    class Value {
+
+    class Value implements Comparable<Value> {
         String value;
         String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         int weigth;
@@ -100,6 +126,15 @@ public class Card {
         public String toString() {
             return value;
         }
+
+        @Override
+        public int compareTo(Value o) {
+            if (this.weigth == o.weigth) {
+                return 0;
+            } else if (this.weigth > o.weigth) {
+                return 1;
+            } else return -1;
+        }
     }
 
 }
@@ -110,5 +145,6 @@ enum SuitEnum {
     CLUBS,
     DIAMONDS
 }
+
 
 

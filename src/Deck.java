@@ -1,10 +1,11 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class Deck {
+public class Deck implements Iterator<Card>{
     private List<Card> deck;
     private int nextCardIndex = 0;
+    private int iteratorIndex = 0;
+    Card.Suit trump;
+
 
     public Deck() {
         SuitEnum[] suitArr = {SuitEnum.SPADES, SuitEnum.DIAMONDS, SuitEnum.CLUBS, SuitEnum.HEARTS};
@@ -17,6 +18,7 @@ public class Deck {
         }
         Collections.shuffle(deck);
         this.deck = deck;
+        this.trump = trump = this.deck.get((int) (Math.random() * 36)).getSuit();
     }
 
     @Override
@@ -40,8 +42,17 @@ public class Deck {
         return card;
     }
     public Card.Suit getTrump(){
-        Card.Suit trump = this.deck.get(nextCardIndex).getSuit();
-        return trump;
+        return this.trump;
     }
 
+    public boolean hasNext() {
+        return iteratorIndex < deck.size();
+    }
+
+    @Override
+    public Card next() {
+        Card nextCard = deck.get(iteratorIndex);
+        iteratorIndex++;
+        return nextCard;
+    }
 }
