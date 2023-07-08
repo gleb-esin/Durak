@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class Deck {
     private List<Card> deck;
-    private int nextCardIndex = 36-deck.size();
+    private int nextCardIndex = 0;
 
     public Deck() {
         SuitEnum[] suitArr = {SuitEnum.SPADES, SuitEnum.DIAMONDS, SuitEnum.CLUBS, SuitEnum.HEARTS};
@@ -30,6 +29,14 @@ public class Deck {
     }
 
     public int getNextCardIndex() {
+        this.nextCardIndex = 36-deck.size();
         return nextCardIndex;
+    }
+
+    public Card getNextCard() {
+        Card card = this.deck.get(this.nextCardIndex);
+        this.deck.set(nextCardIndex, null);
+        nextCardIndex++;
+        return card;
     }
 }
