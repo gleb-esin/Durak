@@ -3,7 +3,7 @@ import java.util.*;
 public class Game {
     private Deck deck;
     private List<Player> players = new ArrayList<>();
-    boolean isGameOver = false;
+    private boolean isGameOver = false;
 
 
     public Game() {
@@ -56,5 +56,10 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).setTurn(i + 1);
         }
+    }
+
+    public Deck getDeck() {
+        return deck;
+
     }
 }

@@ -4,13 +4,17 @@ public class Main {
 
         Game game = new Game();
         game.addPlayer("Gleb");
-        game.addPlayer("Jena");
+        game.addPlayer("Elvis");
+        game.addPlayer("Costello");
+
         game.setPlayersTurn(game.getPlayers());
-        System.out.println("trump " + game.getTrump());
-        for (Player player :
+        for (Player p :
                 game.getPlayers()) {
-            System.out.println(player.toString());
+            System.out.println(p);
         }
+        Round round = new Round(game);
+        round.attackMove();
+        round.defendMove();
 
     }
 }

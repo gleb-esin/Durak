@@ -4,7 +4,7 @@ public class Deck implements Iterator<Card>{
     private List<Card> deck;
     private int nextCardIndex = 0;
     private int iteratorIndex = 0;
-    Card.Suit trump;
+    private Card.Suit trump;
 
 
     public Deck() {
@@ -18,7 +18,7 @@ public class Deck implements Iterator<Card>{
         }
         Collections.shuffle(deck);
         this.deck = deck;
-        this.trump = trump = this.deck.get((int) (Math.random() * 36)).getSuit();
+        this.trump = this.deck.get((int) (Math.random() * 36)).getSuit();
     }
 
     @Override
@@ -30,10 +30,10 @@ public class Deck implements Iterator<Card>{
         return stringBuffer.toString();
     }
 
-    public int getNextCardIndex() {
-        this.nextCardIndex = 36-deck.size();
-        return nextCardIndex;
-    }
+//    public int getNextCardIndex() {
+//        this.nextCardIndex = 36-deck.size();
+//        return nextCardIndex;
+//    }
 
     public Card getNextCard() {
         Card card = this.deck.get(this.nextCardIndex);

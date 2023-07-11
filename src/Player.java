@@ -52,5 +52,7 @@ public class Player implements Comparable<Player>{
         else return -1;
     }
 
-
+    public String getName() {
+        return name;
+    }
 }
