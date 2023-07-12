@@ -1,8 +1,7 @@
 import java.util.*;
 
-public class Deck implements Iterator<Card>{
+public class Deck implements Iterator<Card> {
     private List<Card> deck;
-    private int nextCardIndex = 0;
     private int iteratorIndex = 0;
     private Card.Suit trump;
 
@@ -17,31 +16,35 @@ public class Deck implements Iterator<Card>{
             }
         }
         Collections.shuffle(deck);
+
+        this.trump = deck.get((int) (Math.random() * 36)).getSuit();
+        for (int i = 0; i < deck.size(); i++) {
+            Card card = deck.get(i);
+            Card.Suit suit = card.getSuit();
+            if (suit.equals(this.trump)){
+                card.getSuit().setTrump(true);
+            }
+
+        }
         this.deck = deck;
-        this.trump = this.deck.get((int) (Math.random() * 36)).getSuit();
     }
 
     @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        for (Card card: this.deck) {
+        for (Card card : this.deck) {
             stringBuffer.append(card + " ");
         }
         return stringBuffer.toString();
     }
 
-//    public int getNextCardIndex() {
-//        this.nextCardIndex = 36-deck.size();
-//        return nextCardIndex;
-//    }
-
     public Card getNextCard() {
-        Card card = this.deck.get(this.nextCardIndex);
-        this.deck.set(nextCardIndex, null);
-        nextCardIndex++;
+        Card card = this.deck.get(0);
+        this.deck.remove(0);
         return card;
     }
-    public Card.Suit getTrump(){
+
+    public Card.Suit getTrump() {
         return this.trump;
     }
 

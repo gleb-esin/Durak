@@ -62,4 +62,8 @@ public class Game {
         return deck;
 
     }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
 }

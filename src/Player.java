@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.List;
 
 public class Player implements Comparable<Player>{
@@ -16,16 +17,13 @@ public class Player implements Comparable<Player>{
         this.playerID = id++;
     }
 
-    public int getTurn() {
-        return turn;
-    }
-
     public void setTurn(int turn) {
         this.turn = turn;
     }
 
     @Override
     public String toString() {
+        Collections.sort(playerHand);
         return name + " " + playerHand;
     }
 

@@ -24,11 +24,7 @@ public class Card implements Comparable<Card> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
         Card card = (Card) o;
-
         if (!suit.equals(card.suit)) return false;
         return value.equals(card.value);
     }
@@ -72,13 +68,8 @@ public class Card implements Comparable<Card> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
             Suit suit1 = (Suit) o;
-
-            if (isTrump != suit1.isTrump) return false;
-            return suit.equals(suit1.suit);
+            return this.suit.equals(suit1.suit);
         }
 
         public String getSuit() {
@@ -91,12 +82,14 @@ public class Card implements Comparable<Card> {
 
         @Override
         public int compareTo(Suit o) {
-            if ((this.suit.equals(o.suit)) && this.isTrump == o.isTrump) {
+            if (this.suit.equals(o.suit)) {
                 return 0;
-            } else if (this.isTrump == true && o.isTrump == false) {
-                return 1;
             } else {
-                return -1;
+                if (this.isTrump == true && o.isTrump == false) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             }
         }
     }
@@ -114,11 +107,7 @@ public class Card implements Comparable<Card> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
             Value value = (Value) o;
-
             return weight == value.weight;
         }
 
