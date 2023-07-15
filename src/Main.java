@@ -4,11 +4,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите имена игроков через пробел: ");
-        String names = scanner.nextLine();
-        String[] namesArr = names.split(" ");
+        String[] namesArr = scanner.nextLine().split(" ");
         while (namesArr.length <2){
             System.out.println("А с кем играть-то? Поврторите ввод:");
-            names = scanner.nextLine();
+            namesArr = scanner.nextLine().split(" ");
         }
         Game game = new Game(namesArr);
         game.setPlayersTurn(game.getPlayers());
