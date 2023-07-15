@@ -172,13 +172,19 @@ public class Round {
 
     private List<Card> askForCards(Player player) {
         List<Card> cards = new ArrayList<>();
+        String message = "";
         if (player.equals(getAttacker())) {
-            print(player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:");
+            message = player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:";
+
         } else {
-            print(player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:");
-            System.out.println("(Если хотите пропустить ход, напечатайте \"0\")");
+            message = player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:\n(Если хотите пропустить ход, напечатайте \"0\")";
         }
+        System.out.println(message);
         String cardIndexes = scanner.nextLine();
+        while (cardIndexes.isEmpty()) {
+            System.out.println(message);
+            cardIndexes = scanner.nextLine();
+        }
         String[] cardIndexesArr = cardIndexes.split(" ");
         Pattern pattern = Pattern.compile("^(0|[1-9]\\d*)$");
         for (String s : cardIndexesArr) {

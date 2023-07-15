@@ -14,13 +14,11 @@ public class Main {
         Round round = new Round(game);
         int move = 1;
         while (!game.isGameOver()){
-            System.out.println(round.getDeck());
-            System.out.println("Ход " + move++);
             round.attackMove();
             round.defendMove();
             round.fillUpTheHands();
             round.changeTurn();
         }
-        S
+        System.out.println(game.getWinner() + " победитель!");
     }
 }
