@@ -1,14 +1,14 @@
 import java.util.Collections;
 import java.util.List;
 
-public class Player implements Comparable<Player>{
+public class Player implements Comparable<Player> {
     static int id = 0;
     private String name;
     private List<Card> playerHand;
     private boolean isWinner = false;
-     private int turn;
-     private int playerID;
-     private Integer minTrumpWeight;
+    private int turn;
+    private int playerID;
+    private Integer minTrumpWeight;
 
 
     public Player(String name, List<Card> playerHand) {
@@ -52,5 +52,9 @@ public class Player implements Comparable<Player>{
 
     public String getName() {
         return name;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
     }
 }

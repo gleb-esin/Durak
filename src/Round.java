@@ -3,7 +3,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Round {
-    private final Deck deck;
+    private Game game;
+    private Deck deck;
     private List<Card> table;
     private Player attacker;
     private Player defender;
@@ -20,6 +21,7 @@ public class Round {
         this.defender = this.queue.pop();
         this.queue.addFirst(this.attacker);
         this.table = new ArrayList<>();
+        this.game = game;
     }
 
     public void attackMove() {
@@ -36,45 +38,32 @@ public class Round {
             isMoveCorrect = isMoveCorrect(cards);
         }
         addCardsToTable(cards, getAttacker());
+        isPlayerWinner(getAttacker());
     }
 
 
     public void defendMove() {
-        List<Card> tableCards = getTable();
-        Player defender = getDefender();
-        clearConsole(defender);
-        printTable();
-        print("Отбивается " + defender.getName() + ", козырь " + getDeck().getTrump());
-        print(defender);
-        boolean canDefend = isDefendPossible(tableCards, defender.getPlayerHand());
-        //If defender can't beat attacker cards...
+        if(!game.isGameOver()) {
+            List<Card> tableCards = getTable();
+            Player defender = getDefender();
+            clearConsole(defender);
+            printTable();
+            print("Отбивается " + defender.getName() + ", козырь " + getDeck().getTrump());
+            print(defender);
+            boolean canDefend = isDefendPossible(tableCards, defender.getPlayerHand());
+            //If defender can't beat attacker cards...
 
-        System.out.println(defender.getName() + ", Вы будете отбиваться?\n" +
-                "(Напечатайте ответ \"да\" или \"нет\")");
-        String answer = scanner.nextLine().trim().toLowerCase();
-
-        while (!answer.equals("да") && !answer.equals("нет")) {
-            System.out.println(defender.getName() + ", ответ не распознан\n" +
+            System.out.println(defender.getName() + ", Вы будете отбиваться?\n" +
                     "(Напечатайте ответ \"да\" или \"нет\")");
-            answer = scanner.nextLine().trim().toLowerCase();
-        }
+            String answer = scanner.nextLine().trim().toLowerCase();
 
-        if (answer.equals("нет")) {
-            willYouThrow(getQueue());
-            //...and defender takes table cards
-            print(defender.getName() + " забирает карты " + getTable());
-            for (int i = 0; i < tableCards.size(); i++) {
-                Card tableCard = tableCards.get(i);
-                defender.getPlayerHand().add(tableCard);
+            while (!answer.equals("да") && !answer.equals("нет")) {
+                System.out.println(defender.getName() + ", ответ не распознан\n" +
+                        "(Напечатайте ответ \"да\" или \"нет\")");
+                answer = scanner.nextLine().trim().toLowerCase();
             }
-            getTable().clear();
-            setBinder(getDefender());
-            System.out.println("binder " + getBinder());
-        } else if (answer.equals("да")){
-            if (!canDefend) {
-                print(defender.getName() + " не может отбиться.");
-                printTable();
-                //...we ask throwers for throw...
+
+            if (answer.equals("нет")) {
                 willYouThrow(getQueue());
                 //...and defender takes table cards
                 print(defender.getName() + " забирает карты " + getTable());
@@ -84,76 +73,96 @@ public class Round {
                 }
                 getTable().clear();
                 setBinder(getDefender());
-                System.out.println("binder " + getBinder());
-                //If defender can beat attacker cards...
-            } else {
-                //... defender lays out his cards...
-                List<Card> cards = prepareCardsToTable(defender);
-                //...and we check them.
-                boolean isDefendPossible = isDefendPossible(getTable(), cards);
-                if (isDefendPossible) {
-                    // If defenders cards are correct...
-                    print(defender.getName() + " отбился");
-                    //...we add these cards on the table...
-                    addCardsToTable(cards, defender);
-                    //...and then ask throwers for throw.
+            } else if (answer.equals("да")) {
+                if (!canDefend) {
+                    print(defender.getName() + " не может отбиться.");
+                    printTable();
+                    //...we ask throwers for throw...
                     willYouThrow(getQueue());
+                    //...and defender takes table cards
+                    print(defender.getName() + " забирает карты " + getTable());
+                    for (int i = 0; i < tableCards.size(); i++) {
+                        Card tableCard = tableCards.get(i);
+                        defender.getPlayerHand().add(tableCard);
+                    }
+                    getTable().clear();
+                    setBinder(getDefender());
+                    System.out.println("binder " + getBinder());
+                    //If defender can beat attacker cards...
                 } else {
-                    //While defender cards aren't correct...
-                    while (!isDefendPossible) {
-                        //...we ask defender for correct cards.
-                        print("Так не получится отбиться");
-                        cards = prepareCardsToTable(defender);
-                        isDefendPossible = isDefendPossible(getTable(), cards);
+                    //... defender lays out his cards...
+                    List<Card> cards = prepareCardsToTable(defender);
+                    //...and we check them.
+                    boolean isDefendPossible = isDefendPossible(getTable(), cards);
+                    if (isDefendPossible) {
+                        // If defenders cards are correct...
                         print(defender.getName() + " отбился");
                         //...we add these cards on the table...
-                        getTable().addAll(cards);
-                        printTable();
+                        addCardsToTable(cards, defender);
                         //...and then ask throwers for throw.
                         willYouThrow(getQueue());
+                    } else {
+                        //While defender cards aren't correct...
+                        while (!isDefendPossible) {
+                            //...we ask defender for correct cards.
+                            print("Так не получится отбиться");
+                            cards = prepareCardsToTable(defender);
+                            isDefendPossible = isDefendPossible(getTable(), cards);
+                            print(defender.getName() + " отбился");
+                            //...we add these cards on the table...
+                            getTable().addAll(cards);
+                            printTable();
+                            //...and then ask throwers for throw.
+                            willYouThrow(getQueue());
+                        }
                     }
+                    tableCards.clear();
                 }
-                tableCards.clear();
             }
         }
     }
 
     public void willYouThrow(Deque<Player> throwers) {
-        for (Player thrower : queue) {
-            if (isThrowPossible(getTable(), thrower.getPlayerHand())) {
-                clearConsole(thrower);
-                printTable();
-                print(thrower.getName() + ", Вы будете подкидывать?\n" + "Напечатайте ответ: \"да\" или \"нет\"");
-                print(thrower);
-                String answer = scanner.nextLine().toLowerCase().trim();
-                while (!answer.equals("да") && !answer.equals("нет")) {
-                    print("Ответ не распознан. Напечатайте ответ: \"да\" или \"нет\"");
-                    answer = scanner.nextLine().toLowerCase().trim();
-                }
-                if (answer.equals("да")) {
-                    List<Card> cards = prepareCardsToTable(thrower);
-                    if (isThrowPossible(getTable(), cards)) {
-                        addCardsToTable(cards, thrower);
-                        print(thrower);
-                        printTable();
-                        defendMove();
-                    } else {
-                        break;
+        if(!game.isGameOver()){
+            for (Player thrower : throwers) {
+                if (isThrowPossible(getTable(), thrower.getPlayerHand())) {
+                    clearConsole(thrower);
+                    printTable();
+                    print(thrower);
+                    print(thrower.getName() + ", Вы будете подкидывать?\n" + "Напечатайте ответ: \"да\" или \"нет\"");
+                    String answer = scanner.nextLine().toLowerCase().trim();
+                    while (!answer.equals("да") && !answer.equals("нет")) {
+                        print("Ответ не распознан. Напечатайте ответ: \"да\" или \"нет\"");
+                        answer = scanner.nextLine().toLowerCase().trim();
                     }
+                    if (answer.equals("да")) {
+                        List<Card> cards = prepareCardsToTable(thrower);
+                        if (isThrowPossible(getTable(), cards)) {
+                            addCardsToTable(cards, thrower);
+                            print(thrower);
+                            printTable();
+                            defendMove();
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    clearConsole(thrower);
+                    print(thrower.getName() + " не может подкинуть.");
                 }
-            } else {
-                clearConsole(thrower);
-                print(thrower.getName() + " не может подкинуть.");
             }
         }
     }
 
     private boolean isThrowPossible(List<Card> tableCards, List<Card> cards) {
+
         boolean isThrowPossible = false;
         for (Card tableCard : tableCards) {
             for (Card throwerCard : cards) {
-                if (tableCard.getValue().equals(throwerCard.getValue())) isThrowPossible = true;
-                break;
+                if (tableCard.getValue().equals(throwerCard.getValue())) {
+                    isThrowPossible = true;
+                    break;
+                }
             }
         }
         return isThrowPossible;
@@ -236,11 +245,6 @@ public class Round {
         setDefender(getQueue().pop());
         getQueue().addFirst(getAttacker());
         setBinder(null);
-
-
-        System.out.println("A " + getAttacker());
-        System.out.println("D " + getDefender());
-        getQueue().forEach(player -> System.out.println("T " + player));
     }
 
     private void printTable() {
@@ -306,6 +310,15 @@ public class Round {
 
     public Deque<Player> getQueue() {
         return queue;
+    }
+
+    private boolean isPlayerWinner (Player player) {
+        boolean isWinner = getDeck().isEmpty() && player.getPlayerHand().isEmpty();
+        if (isWinner) {
+            player.setWinner(isWinner);
+            this.game.setGameOver(isWinner);
+        }
+        return isWinner;
     }
 }
 

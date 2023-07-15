@@ -9,7 +9,7 @@ public class Deck implements Iterator<Card> {
     public Deck() {
         SuitEnum[] suitArr = {SuitEnum.SPADES, SuitEnum.DIAMONDS, SuitEnum.CLUBS, SuitEnum.HEARTS};
         String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        List<Card> deck = new ArrayList<>();
+        List<Card> deck = new LinkedList<>();
         for (SuitEnum suitEnum : suitArr) {
             for (String value : valuesArr) {
                 deck.add(new Card(value, suitEnum));
@@ -21,7 +21,7 @@ public class Deck implements Iterator<Card> {
         for (int i = 0; i < deck.size(); i++) {
             Card card = deck.get(i);
             Card.Suit suit = card.getSuit();
-            if (suit.equals(this.trump)){
+            if (suit.equals(this.trump)) {
                 card.getSuit().setTrump(true);
             }
 
@@ -57,5 +57,9 @@ public class Deck implements Iterator<Card> {
         Card nextCard = deck.get(iteratorIndex);
         iteratorIndex++;
         return nextCard;
+    }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
     }
 }

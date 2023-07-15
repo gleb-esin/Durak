@@ -6,7 +6,7 @@ public class Game {
     private boolean isGameOver = false;
 
 
-    public Game() {
+    public Game(String[] namesArr) {
         this.deck = new Deck();
         while (deck.hasNext()) {
             Card.Suit suit = deck.next().getSuit();
@@ -14,16 +14,15 @@ public class Game {
                 suit.setTrump(true);
             }
         }
-    }
-
-    public void addPlayer(String name) {
-        List<Card> playerHand = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            playerHand.add(deck.getNextCard());
-        }
         Comparator<Card> cardComparator = Card::compareTo;
-        playerHand.sort(cardComparator);
-        this.players.add(new Player(name, playerHand));
+        for (String s : namesArr) {
+            List<Card> playerHand = new ArrayList<>();
+            for (int i = 0; i < 6; i++) {
+                playerHand.add(deck.getNextCard());
+            }
+            playerHand.sort(cardComparator);
+            this.players.add(new Player(s, playerHand));
+        }
     }
 
     public List<Player> getPlayers() {
@@ -38,10 +37,10 @@ public class Game {
         for (Player player : players) {
             for (int i = 0; i < player.getPlayerHand().size(); i++) {
                 if (player.getPlayerHand().get(i).getSuit().getTrump() == true) {
-                    if (player.getMinTrumpWeight() == null){
+                    if (player.getMinTrumpWeight() == null) {
                         player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
                     } else {
-                        if (player.getMinTrumpWeight() > player.getPlayerHand().get(i).getValue().getWeight()){
+                        if (player.getMinTrumpWeight() > player.getPlayerHand().get(i).getValue().getWeight()) {
                             player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
                         }
                     }
@@ -65,5 +64,9 @@ public class Game {
 
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
 }
