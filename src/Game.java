@@ -4,6 +4,7 @@ public class Game {
     private Deck deck;
     private List<Player> players = new ArrayList<>();
     private boolean isGameOver = false;
+    private Player winner;
 
 
     public Game(String[] namesArr) {
@@ -68,5 +69,13 @@ public class Game {
 
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 }

@@ -16,7 +16,7 @@ public class Round {
 
     public Round(Game game) {
         this.deck = game.getDeck();
-        this.queue = new ArrayDeque<>(game.getPlayers());
+        this.queue = new LinkedList<>(game.getPlayers());
         this.attacker = this.queue.pop();
         this.defender = this.queue.pop();
         this.queue.addFirst(this.attacker);
@@ -137,7 +137,7 @@ public class Round {
                     List<Card> cards = askForCards(thrower);
 
                     if (cards.isEmpty()) {
-                        System.out.println(thrower + ", не будет подкидывать.");
+                        System.out.println(thrower.getName() + ", не будет подкидывать.");
                     } else {
                         if (isThrowPossible(getTable(), thrower.getPlayerHand())) {
                             addCardsToTable(cards, thrower);
@@ -171,7 +171,6 @@ public class Round {
 
 
     private List<Card> askForCards(Player player) {
-
         List<Card> cards = new ArrayList<>();
         if (player.equals(getAttacker())) {
             print(player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:");
@@ -234,18 +233,20 @@ public class Round {
 
     private void fillUpThePlayersHand(Player player) {
         int playerCardGap = 6 - player.getPlayerHand().size();
-        if (playerCardGap > 0)
-            for (int i = 0; i < playerCardGap; i++) {
-                player.getPlayerHand().add(getDeck().getNextCard());
-            }
+        if (!getDeck().isEmpty()) {
+            if (playerCardGap > 0)
+                for (int i = 0; i < playerCardGap; i++) {
+                    player.getPlayerHand().add(getDeck().getNextCard());
+                }
+        }
     }
 
 
     public void fillUpTheHands() {
-        fillUpThePlayersHand(getDefender());
         for (Player thrower : getQueue()) {
             fillUpThePlayersHand(thrower);
         }
+        fillUpThePlayersHand(getDefender());
     }
 
     public void changeTurn() {
@@ -273,7 +274,6 @@ public class Round {
             print("Передайте управление " + player.getName() + " и нажмите Enter");
             answer = scanner.nextLine();
         }
-        int screenGap = 8 - stringsPrinted;
         for (int i = 1; i <= 8; i++) {
             System.out.println();
         }
@@ -326,6 +326,7 @@ public class Round {
         if (isWinner) {
             player.setWinner(isWinner);
             this.game.setGameOver(isWinner);
+            this.game.setWinner(player);
         }
         return isWinner;
     }
