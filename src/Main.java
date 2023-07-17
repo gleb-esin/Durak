@@ -1,8 +1,16 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
+        System.out.println(
+                "██████╗ ██╗   ██╗██████╗  █████╗ ██╗  ██╗\n" +
+                "██╔══██╗██║   ██║██╔══██╗██╔══██╗██║ ██╔╝\n" +
+                "██║  ██║██║   ██║██████╔╝███████║█████╔╝ \n" +
+                "██║  ██║██║   ██║██╔══██╗██╔══██║██╔═██╗ \n" +
+                "██████╔╝╚██████╔╝██║  ██║██║  ██║██║  ██╗\n" +
+                "╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝");
+
         System.out.println("Введите имена игроков через пробел: ");
         String[] namesArr = scanner.nextLine().split(" ");
         while (namesArr.length <2){

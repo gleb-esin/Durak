@@ -10,8 +10,6 @@ public class Round {
     private Player defender;
     private Player binder;
     private Deque<Player> queue;
-    private int stringsPrinted = 0;
-
     Scanner scanner = new Scanner(System.in);
 
     public Round(Game game) {
@@ -56,7 +54,7 @@ public class Round {
                 print(defender.getName() + " не может отбиться.");
                 printTable();
                 //...we ask throwers for throw...
-                willYouThrow(getQueue());
+                throwMove(getQueue());
                 //...and defender takes table cards
                 print(defender.getName() + " забирает карты " + getTable());
                 for (int i = 0; i < tableCards.size(); i++) {
@@ -70,7 +68,7 @@ public class Round {
                 //... defender lays out his cards...
                 List<Card> cards = askForCards(defender);
                 if (cards.isEmpty()) {
-                    willYouThrow(getQueue());
+                    throwMove(getQueue());
                     print(defender.getName() + " забирает карты " + getTable());
                     for (int i = 0; i < tableCards.size(); i++) {
                         Card tableCard = tableCards.get(i);
@@ -86,7 +84,7 @@ public class Round {
                         //...we add these cards on the table...
                         addCardsToTable(cards, defender);
                         //...and then ask throwers for throw.
-                        willYouThrow(getQueue());
+                        throwMove(getQueue());
                     } else {
                         //While defender cards aren't correct...
                         while (!isDefendPossible) {
@@ -99,7 +97,7 @@ public class Round {
                             getTable().addAll(cards);
                             printTable();
                             //...and then ask throwers for throw.
-                            willYouThrow(getQueue());
+                            throwMove(getQueue());
                         }
                     }
                 }
@@ -110,23 +108,7 @@ public class Round {
     }
 
 
-    private boolean askAboutMove(Player defender, String question) {
-        System.out.println(defender.getName() + ", " + question + "?\n" +
-                "(Напечатайте ответ \"да\" или \"нет\")");
-        String answer = scanner.nextLine().trim().toLowerCase();
-        while (!answer.equals("да") && !answer.equals("нет")) {
-            System.out.println(defender.getName() + ", ответ не распознан\n" +
-                    "(Напечатайте ответ \"да\" или \"нет\")");
-            answer = scanner.nextLine().trim().toLowerCase();
-        }
-        if (answer.equals("да")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void willYouThrow(Deque<Player> throwers) {
+    public void throwMove(Deque<Player> throwers) {
         if (!game.isGameOver()) {
             for (Player thrower : throwers) {
                 if (isThrowPossible(getTable(), thrower.getPlayerHand())) {
@@ -173,9 +155,8 @@ public class Round {
     private List<Card> askForCards(Player player) {
         List<Card> cards = new ArrayList<>();
         String message = "";
-        if (player.equals(getAttacker())) {
+        if (getTable().isEmpty()) {
             message = player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:";
-
         } else {
             message = player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:\n(Если хотите пропустить ход, напечатайте \"0\")";
         }
@@ -283,12 +264,10 @@ public class Round {
         for (int i = 1; i <= 8; i++) {
             System.out.println();
         }
-        stringsPrinted = 0;
     }
 
     private void print(Object o) {
         System.out.println(o.toString());
-        stringsPrinted++;
     }
 
     private void addCardsToTable(List<Card> cards, Player player) {
