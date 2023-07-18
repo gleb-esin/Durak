@@ -309,8 +309,8 @@ public class Round {
     private boolean isPlayerWinner(Player player) {
         boolean isWinner = getDeck().isEmpty() && player.getPlayerHand().isEmpty();
         if (isWinner) {
-            player.setWinner(isWinner);
-            this.game.setGameOver(isWinner);
+            player.setWinner(true);
+            this.game.setGameOver(true);
             this.game.setWinner(player);
         }
         return isWinner;
