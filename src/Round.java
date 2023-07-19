@@ -161,11 +161,7 @@ public class Round {
             message = player.getName() + ", введите порядковые номера карт в Вашей руке через пробел:\n(Если хотите пропустить ход, напечатайте \"0\")";
         }
         System.out.println(message);
-        String cardIndexes = scanner.nextLine();
-        while (cardIndexes.isEmpty()) {
-            System.out.println(message);
-            cardIndexes = scanner.nextLine();
-        }
+        String cardIndexes = readNonEmptyLine(scanner);
         String[] cardIndexesArr = cardIndexes.split(" ");
         Pattern pattern = Pattern.compile("^(0|[1-9]\\d*)$");
         for (String s : cardIndexesArr) {
@@ -286,20 +282,19 @@ public class Round {
     }
 
     private boolean isDefendPossible(List<Card> tableCards, List<Card> defenderCards) {
-        List<Card> tempDefenderCards = defenderCards;
         int isDefendCorrect = -1;
         int cardsNumberToBeat = tableCards.size();
-        List<Integer> beatenCardsList = new ArrayList<>();
+        int beatenCards = 0;
         for (Card tableCard : tableCards) {
-            for (int i = 0; i < tempDefenderCards.size(); i++) {
-                isDefendCorrect = tempDefenderCards.get(i).compareTo(tableCard);
+            for (int i = 0; i < defenderCards.size(); i++) {
+                isDefendCorrect = defenderCards.get(i).compareTo(tableCard);
                 if (isDefendCorrect > 0) {
-                    beatenCardsList.add(isDefendCorrect);
+                    beatenCards++;
                     break;
                 }
             }
         }
-        return beatenCardsList.size() >= cardsNumberToBeat;
+        return beatenCards >= cardsNumberToBeat;
     }
 
     public Deque<Player> getQueue() {
@@ -314,6 +309,15 @@ public class Round {
             this.game.setWinner(player);
         }
         return isWinner;
+    }
+
+    private static String readNonEmptyLine(Scanner scanner) {
+        String input = scanner.nextLine().trim();
+        while (input.isEmpty()) {
+            System.out.println("Пустой ввод. Пожалуйста, введите значение.");
+            input = scanner.nextLine().trim();
+        }
+        return input;
     }
 }
 
