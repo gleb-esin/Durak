@@ -32,10 +32,6 @@ public class Player implements Comparable<Player> {
         return playerHand;
     }
 
-    public int getPlayerId() {
-        return this.playerID;
-    }
-
     public Integer getMinTrumpWeight() {
         return minTrumpWeight;
     }
