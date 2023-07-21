@@ -26,7 +26,6 @@ public class Main {
         Game game = new Game(namesArr);
         game.setPlayersTurn(game.getPlayers());
         Round round = new Round(game);
-        int move = 1;
         while (!game.isGameOver()){
             round.attackMove();
             round.defendMove();

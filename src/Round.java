@@ -11,6 +11,7 @@ public class Round {
     private Player binder;
     private Deque<Player> queue;
     Scanner scanner = new Scanner(System.in);
+
     public Round(Game game) {
         this.deck = game.getDeck();
         this.queue = new LinkedList<>(game.getPlayers());
@@ -71,7 +72,7 @@ public class Round {
                     setBinder(getDefender());
                 } else {
                     boolean isDefendPossible = isDefendPossible(unbeatenCards, cards);
-                    while (!isDefendPossible || cards.size()>unbeatenCards.size()) {
+                    while (!isDefendPossible || cards.size() > unbeatenCards.size()) {
                         //...we ask defender for correct cards.
                         print("Так не получится отбиться");
                         cards = askForCards(defender);
@@ -102,13 +103,16 @@ public class Round {
                     if (cards.isEmpty()) {
                         print(thrower.getName() + ", не будет подкидывать.");
                     } else {
-                        if (isThrowPossible(getTable().getAll(), thrower.getPlayerHand())) {
-                            addCardsToTable(cards, thrower);
-                            print(thrower);
-                            getTable().toString();
-                            isPlayerWinner(thrower);
-                            if (!game.isGameOver()) defendMove();
+                        boolean isThrowCorrect = isThrowCorrect(getTable().getAll(), cards);
+                        while (!isThrowCorrect) {
+                            print(thrower.getName() + " , так не получится подкинуть.");
+                            cards = askForCards(thrower);
+                            isThrowCorrect = isThrowCorrect(getTable().getAll(), cards);
                         }
+                        addCardsToTable(cards, thrower);
+                        getTable().toString();
+                        isPlayerWinner(thrower);
+                        if (!game.isGameOver()) defendMove();
                     }
                 } else {
                     clearConsole(thrower);
@@ -118,10 +122,10 @@ public class Round {
         }
     }
 
-    private boolean isThrowPossible(List<Card> tableCards, List<Card> cards) {
+    private boolean isThrowPossible(List<Card> tableCards, List<Card> throwerHand) {
         boolean isThrowPossible = false;
         for (Card tableCard : tableCards) {
-            for (Card throwerCard : cards) {
+            for (Card throwerCard : throwerHand) {
                 if (tableCard.getValue().equals(throwerCard.getValue())) {
                     isThrowPossible = true;
                     break;
@@ -130,6 +134,23 @@ public class Round {
             if (isThrowPossible) break;
         }
         return isThrowPossible;
+    }
+
+    private boolean isThrowCorrect(List<Card> tableCards, List<Card> throwerCards) {
+        boolean isThrowCorrect;
+        int thrownCards = throwerCards.size();
+        int allowedCards = 0;
+        for (Card throwerCard : throwerCards) {
+            for (Card tableCard : tableCards) {
+                isThrowCorrect = tableCard.getValue().equals(throwerCard.getValue());
+                if (isThrowCorrect) {
+                    allowedCards++;
+                    break;
+                }
+            }
+            if (thrownCards == allowedCards) break;
+        }
+        return thrownCards == allowedCards;
     }
 
 
@@ -228,13 +249,14 @@ public class Round {
     }
 
     private void clearConsole(Player player) {
+        //this method only for IDEA console
         print("Передайте управление " + player.getName() + " и нажмите Enter");
         String answer = scanner.nextLine();
         while (!answer.isEmpty()) {
             print("Передайте управление " + player.getName() + " и нажмите Enter");
             answer = scanner.nextLine();
         }
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 26; i++) {
             System.out.println();
             ;
         }
