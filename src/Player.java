@@ -24,8 +24,23 @@ public class Player implements Comparable<Player> {
     @Override
     public String toString() {
         Collections.sort(playerHand);
-        StringBuffer stringBuffer = new StringBuffer(playerHand.toString());
-        return name + " " + stringBuffer.substring(1,stringBuffer.length()-1);
+        StringBuffer upperString = new StringBuffer();
+        StringBuffer bottomString = new StringBuffer();
+        upperString.append(this.name + " ");
+
+        for (int i = 0; i < this.getName().length(); i++) {
+            bottomString.append(" ");
+        }
+        int cardNumber = 1;
+        for (Card c : playerHand) {
+            for (int i = 0; i < 2; i++) {
+                bottomString.append(" ");
+            }
+            upperString.append(c + " ");
+            if (c.getValue().toString().equals("10")) bottomString.append(" ");
+            bottomString.append(cardNumber++);
+        }
+        return upperString + "\n" + bottomString;
     }
 
     public List<Card> getPlayerHand() {
