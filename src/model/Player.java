@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -8,6 +10,7 @@ public class Player implements Comparable<Player> {
     private boolean isWinner = false;
     private int turn;
     private int playerID;
+    private String role;
     private Integer minTrumpWeight;
 
 
@@ -68,5 +71,13 @@ public class Player implements Comparable<Player> {
 
     public void setWinner(boolean winner) {
         isWinner = winner;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

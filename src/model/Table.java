@@ -1,7 +1,10 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
+    Card.Suit trump;
     private List<Card> beatenCards = new ArrayList<>();
     private List<Card> unbeatenCards = new ArrayList<>();
 
@@ -21,10 +24,6 @@ public class Table {
 
     public List<Card> getBeatenCards() {
         return beatenCards;
-    }
-
-    public void setBeatenCards(List<Card> beatenCards) {
-        this.beatenCards.addAll(beatenCards);
     }
 
     public void setBeatenCards(Card beatenCard) {
@@ -55,5 +54,13 @@ public class Table {
 
     public boolean isEmpty() {
         return unbeatenCards.isEmpty() == beatenCards.isEmpty();
+    }
+
+    public Card.Suit getTrump() {
+        return trump;
+    }
+
+    public void setTrump(Card.Suit trump) {
+        this.trump = trump;
     }
 }

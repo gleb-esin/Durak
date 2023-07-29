@@ -1,4 +1,9 @@
-import java.util.*;
+package model;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Deck implements Iterator<Card> {
     private List<Card> deck;

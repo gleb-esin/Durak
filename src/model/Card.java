@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Arrays;
 
 public class Card implements Comparable<Card> {
@@ -43,7 +45,7 @@ public class Card implements Comparable<Card> {
     }
 
 
-    class Suit implements Comparable<Suit> {
+    public class Suit implements Comparable<Suit> {
         private String suit;
         private boolean isTrump = false;
 
@@ -95,7 +97,7 @@ public class Card implements Comparable<Card> {
     }
 
 
-    class Value implements Comparable<Value> {
+    public class Value implements Comparable<Value> {
         private String value;
         private String[] valuesArr = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         private int weight;
