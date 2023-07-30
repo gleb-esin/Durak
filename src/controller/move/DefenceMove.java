@@ -16,15 +16,9 @@ public class DefenceMove extends PlayerInputValidator implements MoveInterface {
         boolean canDefend = defenceValidator.isCorrect(table.getUnbeatenCards(), defender.getPlayerHand());
         //If defender can't beat attacker cards...
         if (!canDefend) {
-            print(table);
-            print(defender);
             print(defender.getName() + " не может отбиться.");
             defender.setRole("binder");
         } else {
-            print("Отбивается " + defender.getName() + ", козырь " + table.getTrump());
-            print(defender);
-            //If defender can beat attacker cards...
-            //... defender lays out his cards...
             List<Card> cards = askForCards(defender);
             if (cards.isEmpty()) {
                 print(defender.getName() + " не будет отбиваться");

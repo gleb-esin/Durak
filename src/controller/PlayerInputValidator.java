@@ -34,8 +34,30 @@ public class PlayerInputValidator {
                     cards.clear();
                     break;
                 } else {
-                    if (Integer.parseInt(s) <= player.getPlayerHand().size()) {
+                    boolean correctInput = Integer.parseInt(s) <= player.getPlayerHand().size();
+                    if (correctInput) {
                         cards.add(player.getPlayerHand().get(Integer.parseInt(s) - 1));
+                    } else {
+                        while (!correctInput) {
+                            print(player.getName() + ", такой карты нет. Повторите ввод.");
+                            cardIndexes = readNonEmptyLine();
+                            cardIndexesArr = cardIndexes.split(" ");
+//                            Pattern pattern = Pattern.compile("^(0|[1-9]\\d*)$");
+                            for (String st : cardIndexesArr) {
+                                matcher = pattern.matcher(st);
+                                if (matcher.find()) {
+                                    if (Integer.parseInt(st) == 0) {
+                                        cards.clear();
+                                        break;
+                                    } else {
+                                        correctInput = Integer.parseInt(st) <= player.getPlayerHand().size();
+                                        if (correctInput) {
+                                            cards.add(player.getPlayerHand().get(Integer.parseInt(st) - 1));
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

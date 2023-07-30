@@ -29,7 +29,6 @@ public class Deck implements Iterator<Card> {
             if (suit.equals(this.trump)) {
                 card.getSuit().setTrump(true);
             }
-
         }
         this.deck = deck;
     }
