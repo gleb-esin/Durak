@@ -5,7 +5,8 @@ import java.util.Scanner;
 import static view.Printer.print;
 
 public class Intro {
-    public static String[] intro(Scanner scanner){
+    public static String[] intro(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println(
                         "██████╗ ██╗   ██╗██████╗  █████╗ ██╗  ██╗\n" +
                         "██╔══██╗██║   ██║██╔══██╗██╔══██╗██║ ██╔╝\n" +

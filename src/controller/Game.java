@@ -1,5 +1,10 @@
 package controller;
 
+import controller.move.AttackMove;
+import controller.move.DefenceMove;
+import controller.move.MoveInterface;
+import controller.move.ThrowMove;
+import controller.moveValidator.ThrowValidator;
 import model.*;
 
 import java.util.*;
@@ -169,10 +174,12 @@ public class Game {
         MoveInterface attackMove = new AttackMove();
         MoveInterface defenceMove = new DefenceMove();
         MoveInterface throwMove = new ThrowMove();
+        ThrowValidator moveValidator = new ThrowValidator();
         gameloop:
         while (!isGameOver()) {
+
             //attack move
-            clearConsole(attacker);
+            clearConsole(getAttacker().getName());
             print("Ход " + attacker.getName() + " под " + getDefender().getName()
                     + ", козырь " + getDeck().getTrump());
             print(attacker);
@@ -180,7 +187,7 @@ public class Game {
             if(isPlayerWinner(getAttacker())) break gameloop;
 
             //defence move
-            clearConsole(getDefender());
+            clearConsole(getDefender().getName());
             print(getTable());
             defenceMove.move(getDefender(), getTable());
             if (getDefender().getRole().equals("binder")) {
@@ -192,8 +199,8 @@ public class Game {
             if (!isGameOver()) {
                 for (Player thrower : getQueue()) {
                     throwloop:
-                    while (((ThrowMove) throwMove).isThrowPossible(getTable().getAll(), thrower.getPlayerHand()) && !getDefender().getPlayerHand().isEmpty()) {
-                        clearConsole(thrower);
+                    while (moveValidator.isThrowPossible(getTable().getAll(), thrower.getPlayerHand()) && !getDefender().getPlayerHand().isEmpty()) {
+                        clearConsole(thrower.getName());
                         print(getTable());
                         int numberOfUnbeatenCards = getTable().getUnbeatenCards().size();
                         print(thrower.getName() + ", Вы можете подкинуть. Козырь " + getDeck().getTrump());
@@ -202,7 +209,7 @@ public class Game {
                         if (numberOfUnbeatenCards == getTable().getUnbeatenCards().size()) break throwloop;
                         if (!isGameOver() && !getTable().getUnbeatenCards().isEmpty()) {
                             if (!getDefender().getRole().equals("binder")) {
-                                clearConsole(getDefender());
+                                clearConsole(getDefender().getName());
                                 print(getTable());
                                 defenceMove.move(getDefender(), getTable());
                                 print(getTable());
@@ -212,14 +219,13 @@ public class Game {
                             }
                         }
                     }
-
                     if(isPlayerWinner(thrower)) break gameloop;
                 }
             }
             if (getBinder() != null) {
                 for (Player thrower : getQueue()) {
-                    if (((ThrowMove) throwMove).isThrowPossible(getTable().getAll(), thrower.getPlayerHand())) {
-                        clearConsole(thrower);
+                    if (moveValidator.isThrowPossible(getTable().getAll(), thrower.getPlayerHand())) {
+                        clearConsole(thrower.getName());
                         print(getTable());
                         print(thrower.getName() + ", Вы можете подкинуть. Козырь " + getDeck().getTrump());
                         print(thrower);

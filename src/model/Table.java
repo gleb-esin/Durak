@@ -21,11 +21,6 @@ public class Table {
         }
         return stringBuffer.toString();
     }
-
-    public List<Card> getBeatenCards() {
-        return beatenCards;
-    }
-
     public void setBeatenCards(Card beatenCard) {
         this.beatenCards.add(beatenCard);
     }
@@ -34,9 +29,6 @@ public class Table {
         return unbeatenCards;
     }
 
-    public void setUnbeatenCards(List<Card> unbeatenCards) {
-        this.unbeatenCards.addAll(unbeatenCards);
-    }
     public void setUnbeatenCards(Card unbeatenCard) {
         this.unbeatenCards.add(unbeatenCard);
     }
@@ -62,5 +54,23 @@ public class Table {
 
     public void setTrump(Card.Suit trump) {
         this.trump = trump;
+    }
+    public void addCardsToTable(List<Card> playerCards, Player player, Table table) {
+        if (player.getRole().equals("defender")) {
+            Card unbeatenCard;
+            for (int i = 0; i < playerCards.size(); i++) {
+                unbeatenCard = table.getUnbeatenCards().get(i);
+                table.setBeatenCards(unbeatenCard);
+                table.setBeatenCards(playerCards.get(i));
+                player.getPlayerHand().remove(playerCards.get(i));
+            }
+            table.getUnbeatenCards().clear();
+
+        } else {
+            for (Card c : playerCards) {
+                table.setUnbeatenCards(c);
+                player.getPlayerHand().remove(c);
+            }
+        }
     }
 }

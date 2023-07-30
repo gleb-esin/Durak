@@ -1,4 +1,8 @@
-package model;
+package controller;
+
+import model.Card;
+import model.Player;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,29 +12,10 @@ import java.util.regex.Pattern;
 
 import static view.Printer.print;
 
-public class AbstractMove {
+public class PlayerInputValidator {
     Scanner scanner = new Scanner(System.in);
-    void addCardsToTable(List<Card> playerCards, Player player, Table table) {
-        if (player.getRole().equals("defender")) {
-            Card unbeatenCard;
-            for (int i = 0; i < playerCards.size(); i++) {
-                unbeatenCard = table.getUnbeatenCards().get(i);
-                table.setBeatenCards(unbeatenCard);
-                table.setBeatenCards(playerCards.get(i));
-                player.getPlayerHand().remove(playerCards.get(i));
-            }
-            table.getUnbeatenCards().clear();
 
-        } else {
-            for (Card c : playerCards) {
-                table.setUnbeatenCards(c);
-                player.getPlayerHand().remove(c);
-            }
-        }
-    }
-
-
-    List<Card> askForCards(Player player) {
+    protected List<Card> askForCards(Player player) {
         List<Card> cards = new ArrayList<>();
         String message = "";
         if (player.getRole().equals("attacker")) {
@@ -60,8 +45,6 @@ public class AbstractMove {
     }
 
 
-
-
     private String readNonEmptyLine() {
         String input = scanner.nextLine();
         input.trim();
@@ -71,7 +54,6 @@ public class AbstractMove {
         }
         return input;
     }
-
 
 
 }

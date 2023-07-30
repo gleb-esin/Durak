@@ -1,12 +1,19 @@
-package model;
+package controller.move;
+
+import controller.PlayerInputValidator;
+import controller.moveValidator.DefenceValidator;
+import model.Card;
+import model.Player;
+import model.Table;
 
 import java.util.List;
 
 import static view.Printer.print;
 
-public class DefenceMove extends AbstractMove implements MoveInterface {
+public class DefenceMove extends PlayerInputValidator implements MoveInterface {
     public void move(Player defender, Table table) {
-        boolean canDefend = isPossible(table.getUnbeatenCards(), defender.getPlayerHand());
+        DefenceValidator defenceValidator = new DefenceValidator();
+        boolean canDefend = defenceValidator.isCorrect(table.getUnbeatenCards(), defender.getPlayerHand());
         //If defender can't beat attacker cards...
         if (!canDefend) {
             print(table);
@@ -23,7 +30,7 @@ public class DefenceMove extends AbstractMove implements MoveInterface {
                 print(defender.getName() + " не будет отбиваться");
                 defender.setRole("binder");
             } else {
-                boolean isDefendPossible = isPossible(table.getUnbeatenCards(), cards);
+                boolean isDefendPossible = defenceValidator.isCorrect(table.getUnbeatenCards(), cards);
                 while (!isDefendPossible || cards.size() > table.getUnbeatenCards().size()) {
                     if (cards.isEmpty()) {
                         defender.setRole("binder");
@@ -32,36 +39,14 @@ public class DefenceMove extends AbstractMove implements MoveInterface {
                     //...we ask defender for correct cards.
                     print("Так не получится отбиться");
                     cards = askForCards(defender);
-                    isDefendPossible = isPossible(table.getUnbeatenCards(), cards);
+                    isDefendPossible = defenceValidator.isCorrect(table.getUnbeatenCards(), cards);
                 }
                 if(!defender.getRole().equals("binder")) {
                     print(defender.getName() + " отбился");
                     //...we add these cards on the table...
-                    addCardsToTable(cards, defender, table);
+                    table.addCardsToTable(cards, defender, table);
                 }
             }
         }
-    }
-
-
-    public boolean isPossible(List<Card> tableCards, List<Card> defenderCards) {
-        int isDefendCorrect = -1;
-        int cardsNumberToBeat = tableCards.size();
-        int beatenCards = 0;
-        for (Card tableCard : tableCards) {
-            for (Card defenderCard : defenderCards) {
-                isDefendCorrect = defenderCard.compareTo(tableCard);
-                System.out.println(tableCard + " vs " + defenderCard + " = " + isDefendCorrect);
-                if (isDefendCorrect > 0) {
-                    beatenCards++;
-                    break;
-                }
-            }
-            if (beatenCards == cardsNumberToBeat) break;
-        }
-        System.out.println("beatenCards " + beatenCards);
-        System.out.println("cardsNumberToBeat "+ cardsNumberToBeat);
-        return beatenCards == cardsNumberToBeat;
-
     }
 }

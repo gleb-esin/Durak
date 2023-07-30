@@ -6,10 +6,8 @@ import static view.Intro.intro;
 
 public class Main {
     public static void main(String[] args)  {
-        Scanner scanner = new Scanner(System.in);
-        Game game = new Game(intro(scanner));
+        Game game = new Game(intro());
         game.start();
-        scanner.close();
     }
 
 }
