@@ -32,30 +32,6 @@ public class Croupier {
         }
         return players;
     }
-    public List<Player> setPlayersTurn(List<Player> players) {
-        for (Player player : players) {
-            for (int i = 0; i < player.getPlayerHand().size(); i++) {
-                if (player.getPlayerHand().get(i).getSuit().getTrump() == true) {
-                    if (player.getMinTrumpWeight() == null) {
-                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
-                    } else {
-                        if (player.getMinTrumpWeight() > player.getPlayerHand().get(i).getValue().getWeight()) {
-                            player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight());
-                        }
-                    }
-                } else {
-                    if (player.getMinTrumpWeight() == null) {
-                        player.setMinTrumpWeight(player.getPlayerHand().get(i).getValue().getWeight() + 100);
-                    }
-                }
-            }
-        }
-        Collections.sort(players);
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).setTurn(i + 1);
-        }
-        return players;
-    }
 
     private void fillUpThePlayersHand(Player player) {
         int playerCardGap = 6 - player.getPlayerHand().size();

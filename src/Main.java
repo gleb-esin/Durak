@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args)  {
         Croupier croupier = new Croupier();
         List<Player> players = croupier.dealCards(intro());
-        players = croupier.setPlayersTurn(players);
-        Round round = new Round(new Table(), croupier, new PlayerController(players));
+        PlayerController playerController = new PlayerController(players);
+        playerController.setPlayersTurn(players);
+        Round round = new Round(new Table(), croupier, playerController);
         round.start();
     }
 }
