@@ -1,6 +1,7 @@
 package controller.move;
 
 import controller.PlayerInputValidator;
+import controller.TableController;
 import controller.moveValidator.AttackValidator;
 import model.Card;
 import model.Player;
@@ -12,7 +13,7 @@ import static view.Printer.print;
 
 public class AttackMove extends PlayerInputValidator implements MoveInterface {
     @Override
-    public void move(Player attacker, Table table) {
+    public void move(Player attacker, TableController tableController) {
         List<Card> cards = askForCards(attacker);
         AttackValidator attackValidator = new AttackValidator();
         boolean isMoveCorrect = attackValidator.isCorrect(cards);
@@ -21,7 +22,7 @@ public class AttackMove extends PlayerInputValidator implements MoveInterface {
             cards = askForCards(attacker);
             isMoveCorrect = attackValidator.isCorrect(cards);
         }
-        table.addCardsToTable(cards, attacker, table);
+        tableController.addCardsToTable(cards, attacker);
         attacker.setRole("thrower");
     }
 }

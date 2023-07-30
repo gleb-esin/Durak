@@ -14,12 +14,12 @@ import static view.Printer.print;
  * This class provides main business logic of game */
 public class Game {
     private Table table;
-    private Croupier croupier;
+    private DeckController deckController;
     private PlayerController playerController;
 
-    public Game(Table table, Croupier croupier, PlayerController playerController) {
+    public Game(Table table, DeckController deckController, PlayerController playerController) {
         this.table = table;
-        this.croupier = croupier;
+        this.deckController = deckController;
         this.playerController = playerController;
     }
 
@@ -28,6 +28,7 @@ public class Game {
         MoveInterface defenceMove = new DefenceMove();
         MoveInterface throwMove = new ThrowMove();
         ThrowValidator moveValidator = new ThrowValidator();
+        TableController tableController = new TableController(this.table);
         gameloop:
         while (!playerController.isGameOver()) {
 
@@ -36,66 +37,66 @@ public class Game {
             Player defender = playerController.getDefender();
             clearConsole(attacker.getName());
             print("Ход " + attacker.getName() + " под " + defender.getName()
-                    + ", козырь " + croupier.getDeck().getTrump());
+                    + ", козырь " + deckController.getDeck().getTrump());
             print(attacker);
-            attackMove.move(attacker, table);
-            if(playerController.isPlayerWinner(attacker, croupier.getDeck())) break gameloop;
+            attackMove.move(attacker, tableController);
+            if(playerController.isPlayerWinner(attacker, deckController.getDeck())) break gameloop;
 
             //defence move
             clearConsole(defender.getName());
-            print("Отбивается " + defender.getName() + ", козырь " + croupier.getDeck().getTrump());
+            print("Отбивается " + defender.getName() + ", козырь " + deckController.getDeck().getTrump());
             print(table);
             print(defender);
-            defenceMove.move(defender, table);
+            defenceMove.move(defender, tableController);
             if (defender.getRole().equals("binder")) {
                 playerController.setBinder(defender);
             } else {
-                if(playerController.isPlayerWinner(defender, croupier.getDeck())) break gameloop;
+                if(playerController.isPlayerWinner(defender, deckController.getDeck())) break gameloop;
             }
             //throw move
             if (!playerController.isGameOver()) {
                 for (Player thrower : playerController.getQueue()) {
                     throwloop:
-                    while (moveValidator.isThrowPossible(table.getAll(), thrower.getPlayerHand()) && !defender.getPlayerHand().isEmpty()) {
+                    while (moveValidator.isThrowPossible(tableController.getAll(), thrower.getPlayerHand()) && !defender.getPlayerHand().isEmpty()) {
                         clearConsole(thrower.getName());
                         print(table);
                         int numberOfUnbeatenCards = table.getUnbeatenCards().size();
-                        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + croupier.getDeck().getTrump());
+                        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + deckController.getDeck().getTrump());
                         print(thrower);
-                        throwMove.move(thrower, table);
+                        throwMove.move(thrower, tableController);
                         if (numberOfUnbeatenCards == table.getUnbeatenCards().size()) break throwloop;
                         if (!playerController.isGameOver() && !table.getUnbeatenCards().isEmpty()) {
                             if (!defender.getRole().equals("binder")) {
                                 clearConsole(defender.getName());
-                                print("Отбивается " + defender.getName() + ", козырь " + croupier.getDeck().getTrump());
+                                print("Отбивается " + defender.getName() + ", козырь " + deckController.getDeck().getTrump());
                                 print(table);
                                 print(defender);
-                                defenceMove.move(defender, table);
+                                defenceMove.move(defender, tableController);
                             } else {
                                 playerController.setBinder(defender);
                                 break throwloop;
                             }
                         }
                     }
-                    if(playerController.isPlayerWinner(thrower, croupier.getDeck())) break gameloop;
+                    if(playerController.isPlayerWinner(thrower, deckController.getDeck())) break gameloop;
                 }
             }
             if (playerController.getBinder() != null) {
                 for (Player thrower : playerController.getQueue()) {
-                    if (moveValidator.isThrowPossible(table.getAll(), thrower.getPlayerHand())) {
+                    if (moveValidator.isThrowPossible(tableController.getAll(), thrower.getPlayerHand())) {
                         clearConsole(thrower.getName());
                         print(table);
-                        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + croupier.getDeck().getTrump());
+                        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + deckController.getDeck().getTrump());
                         print(thrower);
-                        throwMove.move(thrower, table);
-                        if(playerController.isPlayerWinner(thrower, croupier.getDeck())) break gameloop;
+                        throwMove.move(thrower, tableController);
+                        if(playerController.isPlayerWinner(thrower, deckController.getDeck())) break gameloop;
                     }
                 }
-                print(playerController.getBinder().getName() + " забирает карты " + table.getAll());
-                playerController.getBinder().getPlayerHand().addAll(table.getAll());
+                print(playerController.getBinder().getName() + " забирает карты " + tableController.getAll());
+                playerController.getBinder().getPlayerHand().addAll(tableController.getAll());
             }
-            table.clear();
-            croupier.fillUpTheHands(playerController.getQueue(), defender);
+            tableController.clear();
+            deckController.fillUpTheHands(playerController.getQueue(), defender);
             playerController.changeTurn();
         }
         print(playerController.getWinner().getName() + " победитель!");

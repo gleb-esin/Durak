@@ -5,22 +5,18 @@ import model.Deck;
 import model.Player;
 
 import java.util.*;
+
 /**
- * This class provides control over deck's behavior during round*/
-public class Croupier {
+ * This class provides control over deck's behavior during round
+ */
+public class DeckController {
     Deck deck;
 
-    public Croupier() {
+    public DeckController() {
         this.deck = new Deck();
     }
 
-    public List<Player> dealCards(String[] namesArr){
-        while (deck.hasNext()) {
-            Card.Suit suit = deck.next().getSuit();
-            if (suit.equals(deck.getTrump())) {
-                suit.setTrump(true);
-            }
-        }
+    public List<Player> dealCards(String[] namesArr) {
         Comparator<Card> cardComparator = Card::compareTo;
         List<Player> players = new ArrayList<>();
         for (String s : namesArr) {

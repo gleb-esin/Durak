@@ -21,7 +21,6 @@ public class Deck implements Iterator<Card> {
             }
         }
         Collections.shuffle(deck);
-
         this.trump = deck.get((int) (Math.random() * 36)).getSuit();
         for (int i = 0; i < deck.size(); i++) {
             Card card = deck.get(i);

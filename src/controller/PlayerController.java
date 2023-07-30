@@ -106,7 +106,6 @@ public class PlayerController {
         } else {
             getQueue().addLast(getBinder());
             if (getQueue().size() > 1) setAttacker(getQueue().pop());
-
         }
         setDefender(getQueue().pop());
         getQueue().addFirst(getAttacker());

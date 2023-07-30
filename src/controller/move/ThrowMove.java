@@ -1,6 +1,7 @@
 package controller.move;
 
 import controller.PlayerInputValidator;
+import controller.TableController;
 import controller.moveValidator.ThrowValidator;
 import model.Card;
 import model.Player;
@@ -13,19 +14,19 @@ import static view.Printer.print;
 public class ThrowMove extends PlayerInputValidator implements MoveInterface {
 
     @Override
-    public void move(Player thrower, Table table) {
+    public void move(Player thrower, TableController tableController) {
         ThrowValidator throwValidator = new ThrowValidator();
             List<Card> cards = askForCards(thrower);
             if (cards.isEmpty()) {
                 print(thrower.getName() + ", не будет подкидывать.");
             } else {
-                boolean isThrowCorrect = throwValidator.isCorrect(table.getAll(), cards);
+                boolean isThrowCorrect = throwValidator.isCorrect(tableController.getAll(), cards);
                 while (!isThrowCorrect) {
                     print(thrower.getName() + " , так не получится подкинуть.");
                     cards = askForCards(thrower);
-                    isThrowCorrect = throwValidator.isCorrect(table.getAll(), cards);
+                    isThrowCorrect = throwValidator.isCorrect(tableController.getAll(), cards);
                 }
-                table.addCardsToTable(cards, thrower, table);
+                tableController.addCardsToTable(cards, thrower);
             }
     }
 }
