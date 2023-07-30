@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 import static view.Printer.print;
 
-public class Intro {
+/**
+ * This class pick the players names for the game*/
+public class PlayersPicker {
     public static String[] intro(){
         Scanner scanner = new Scanner(System.in);
         System.out.println(

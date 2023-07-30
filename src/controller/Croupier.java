@@ -5,7 +5,8 @@ import model.Deck;
 import model.Player;
 
 import java.util.*;
-
+/**
+ * This class provides control over deck's behavior during round*/
 public class Croupier {
     Deck deck;
 

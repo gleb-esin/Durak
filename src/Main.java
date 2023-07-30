@@ -1,20 +1,20 @@
 import controller.Croupier;
 import controller.PlayerController;
-import controller.Round;
+import controller.Game;
 import model.Player;
 import model.Table;
 
 import java.util.List;
 
-import static view.Intro.intro;
+import static view.PlayersPicker.intro;
 
 public class Main {
     public static void main(String[] args)  {
         Croupier croupier = new Croupier();
         List<Player> players = croupier.dealCards(intro());
-        PlayerController playerController = new PlayerController(players);
+        PlayerController playerController = new PlayerController();
         playerController.setPlayersTurn(players);
-        Round round = new Round(new Table(), croupier, playerController);
-        round.start();
+        Game game = new Game(new Table(), croupier, playerController);
+        game.start();
     }
 }

@@ -8,6 +8,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class provides control over players' behavior during round*/
 public class PlayerController {
     private Player attacker;
     private Player defender;
@@ -15,9 +17,6 @@ public class PlayerController {
     private Deque<Player> queue;
     private boolean isGameOver = false;
     private Player winner;
-
-    public PlayerController(List<Player> players) {
-    }
 
     public void setPlayersTurn(List<Player> players) {
         for (Player player : players) {

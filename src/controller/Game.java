@@ -10,13 +10,14 @@ import model.Table;
 
 import static view.ClearConsole.clearConsole;
 import static view.Printer.print;
-
-public class Round {
+/**
+ * This class provides main business logic of game */
+public class Game {
     private Table table;
     private Croupier croupier;
     private PlayerController playerController;
 
-    public Round(Table table, Croupier croupier, PlayerController playerController) {
+    public Game(Table table, Croupier croupier, PlayerController playerController) {
         this.table = table;
         this.croupier = croupier;
         this.playerController = playerController;
