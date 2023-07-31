@@ -1,11 +1,10 @@
 package controller.moveValidator;
 
 import model.Card;
-
 import java.util.List;
 
 public class ThrowValidator {
-    public static boolean isCorrect(List<Card> tableCards, List<Card> throwerCards) {
+    public static boolean isThrowMoveCorrect(List<Card> tableCards, List<Card> throwerCards) {
         boolean isThrowCorrect;
         int thrownCards = throwerCards.size();
         int allowedCards = 0;

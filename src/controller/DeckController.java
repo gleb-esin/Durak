@@ -1,9 +1,7 @@
 package controller;
 
-import model.Card;
 import model.Deck;
 import model.Player;
-
 import java.util.*;
 
 /**
@@ -13,7 +11,7 @@ public class DeckController {
     Deck deck;
 
     public DeckController() {
-        this.deck = new Deck();
+        deck = new Deck();
     }
 
     private void fillUpThePlayersHand(Player player) {
@@ -35,6 +33,6 @@ public class DeckController {
     }
 
     public Deck getDeck() {
-        return this.deck;
+        return deck;
     }
 }

@@ -34,6 +34,6 @@ public class Table {
     }
 
     public void setUnbeatenCard(Card beatenCard) {
-        this.unbeatenCards.add(beatenCard);
+        unbeatenCards.add(beatenCard);
     }
 }

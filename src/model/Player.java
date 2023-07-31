@@ -80,8 +80,4 @@ public class Player implements Comparable<Player> {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public void setPlayerHand(List<Card> playerHand) {
-        this.playerHand = playerHand;
-    }
 }

@@ -2,7 +2,6 @@ package controller;
 
 import model.Card;
 import model.Player;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

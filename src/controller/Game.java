@@ -4,10 +4,8 @@ import controller.move.AttackMove;
 import controller.move.DefenceMove;
 import controller.move.MoveInterface;
 import controller.move.ThrowMove;
-import controller.moveValidator.ThrowValidator;
 import model.Player;
 import model.Table;
-
 import static controller.moveValidator.ThrowValidator.isThrowPossible;
 import static view.ClearConsole.clearConsole;
 import static view.Printer.print;
@@ -44,9 +42,11 @@ public class Game {
             if (playerController.isPlayerWinner(attacker, deckController.getDeck())) break gameloop;
 
             //defence move
-            defenseInit(defenceMove);
-            if (defender.getRole().equals("binder")) playerController.setBinder(defender);
-            if (playerController.isPlayerWinner(defender, deckController.getDeck())) break gameloop;
+            if (!playerController.isGameOver()){
+                defenseInit(defenceMove);
+                if (defender.getRole().equals("binder")) playerController.setBinder(defender);
+                if (playerController.isPlayerWinner(defender, deckController.getDeck())) break gameloop;
+            }
 
             //throw move
             if (!playerController.isGameOver()) {

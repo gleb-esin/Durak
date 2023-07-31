@@ -12,7 +12,6 @@ public class Main {
         playerController.setPlayersTurn();
         DeckController deckController = new DeckController();
         deckController.fillUpTheHands(playerController.getQueue(), playerController.getDefender());
-
         Game game = new Game(new TableController(), deckController, playerController);
         game.start();
     }

@@ -1,9 +1,6 @@
 package view;
 
-import model.Player;
-
 import java.util.Scanner;
-
 import static view.Printer.print;
 
 public class ClearConsole {

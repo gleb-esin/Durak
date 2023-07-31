@@ -6,7 +6,6 @@ import model.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides control over tables' behavior during round
  */
@@ -14,7 +13,7 @@ public class TableController {
     private Table table;
 
     public TableController() {
-        this.table = new Table();
+        table = new Table();
     }
 
     public void clear(){
@@ -36,16 +35,16 @@ public class TableController {
         if (player.getRole().equals("defender")) {
             Card unbeatenCard;
             for (int i = 0; i < playerCards.size(); i++) {
-                unbeatenCard = this.table.getUnbeatenCards().get(i);
-                this.table.setBeatenCard(unbeatenCard);
-                this.table.setBeatenCard(playerCards.get(i));
+                unbeatenCard = table.getUnbeatenCards().get(i);
+                table.setBeatenCard(unbeatenCard);
+                table.setBeatenCard(playerCards.get(i));
                 player.getPlayerHand().remove(playerCards.get(i));
             }
-            this.table.getUnbeatenCards().clear();
+            table.getUnbeatenCards().clear();
 
         } else {
             for (Card c : playerCards) {
-                this.table.setUnbeatenCard(c);
+                table.setUnbeatenCard(c);
                 player.getPlayerHand().remove(c);
             }
         }

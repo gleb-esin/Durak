@@ -1,9 +1,7 @@
 package controller;
 
-import model.Card;
 import model.Deck;
 import model.Player;
-
 import java.util.*;
 
 /**
