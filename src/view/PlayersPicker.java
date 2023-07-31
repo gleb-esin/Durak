@@ -7,7 +7,7 @@ import static view.Printer.print;
 /**
  * This class pick the players names for the game*/
 public class PlayersPicker {
-    public static String[] intro(){
+    public static String[] playersPicker(){
         Scanner scanner = new Scanner(System.in);
         System.out.println(
                         "██████╗ ██╗   ██╗██████╗  █████╗ ██╗  ██╗\n" +

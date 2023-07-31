@@ -11,10 +11,10 @@ import java.util.List;
  * This class provides control over tables' behavior during round
  */
 public class TableController {
-    Table table;
+    private Table table;
 
-    public TableController(Table table) {
-        this.table = table;
+    public TableController() {
+        this.table = new Table();
     }
 
     public void clear(){

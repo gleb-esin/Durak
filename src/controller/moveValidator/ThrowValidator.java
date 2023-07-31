@@ -5,7 +5,7 @@ import model.Card;
 import java.util.List;
 
 public class ThrowValidator {
-    public boolean isCorrect(List<Card> tableCards, List<Card> throwerCards) {
+    public static boolean isCorrect(List<Card> tableCards, List<Card> throwerCards) {
         boolean isThrowCorrect;
         int thrownCards = throwerCards.size();
         int allowedCards = 0;
@@ -22,7 +22,7 @@ public class ThrowValidator {
         return thrownCards == allowedCards;
     }
 
-    public boolean isThrowPossible(List<Card> tableCards, List<Card> throwerHand) {
+    public static boolean isThrowPossible(List<Card> tableCards, List<Card> throwerHand) {
         boolean isThrowPossible = false;
         for (Card tableCard : tableCards) {
             for (Card throwerCard : throwerHand) {

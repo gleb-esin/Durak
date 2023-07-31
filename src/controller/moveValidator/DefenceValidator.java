@@ -5,7 +5,7 @@ import model.Card;
 import java.util.List;
 
 public class DefenceValidator {
-    public boolean isCorrect(List<Card> tableCards, List<Card> defenderCards) {
+    public static boolean isCorrect(List<Card> tableCards, List<Card> defenderCards) {
         int isDefendCorrect = -1;
         int cardsNumberToBeat = tableCards.size();
         int beatenCards = 0;

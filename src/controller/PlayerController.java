@@ -1,12 +1,10 @@
 package controller;
 
+import model.Card;
 import model.Deck;
 import model.Player;
 
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class provides control over players' behavior during round*/
@@ -17,8 +15,17 @@ public class PlayerController {
     private Deque<Player> queue;
     private boolean isGameOver = false;
     private Player winner;
+    private List<Player> players;
 
-    public void setPlayersTurn(List<Player> players) {
+    public PlayerController(String[] namesArr) {
+        List<Player> players = new ArrayList<>();
+        for (String s : namesArr) {
+            players.add(new Player(s));
+        }
+        this.players = players;
+    }
+
+    public void setPlayersTurn() {
         for (Player player : players) {
             for (int i = 0; i < player.getPlayerHand().size(); i++) {
                 if (player.getPlayerHand().get(i).getSuit().getTrump() == true) {

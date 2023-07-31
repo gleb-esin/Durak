@@ -1,12 +1,13 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Player implements Comparable<Player> {
     static int id = 0;
     private String name;
-    private List<Card> playerHand;
+    private List<Card> playerHand = new ArrayList<>();
     private boolean isWinner = false;
     private int turn;
     private int playerID;
@@ -14,9 +15,8 @@ public class Player implements Comparable<Player> {
     private Integer minTrumpWeight;
 
 
-    public Player(String name, List<Card> playerHand) {
+    public Player(String name) {
         this.name = name;
-        this.playerHand = playerHand;
         this.playerID = id++;
     }
 
@@ -79,5 +79,9 @@ public class Player implements Comparable<Player> {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setPlayerHand(List<Card> playerHand) {
+        this.playerHand = playerHand;
     }
 }

@@ -5,16 +5,15 @@ import controller.TableController;
 import controller.moveValidator.DefenceValidator;
 import model.Card;
 import model.Player;
-import model.Table;
 
 import java.util.List;
 
+import static controller.moveValidator.DefenceValidator.isCorrect;
 import static view.Printer.print;
 
 public class DefenceMove extends PlayerInputValidator implements MoveInterface {
     public void move(Player defender, TableController tableController) {
-        DefenceValidator defenceValidator = new DefenceValidator();
-        boolean canDefend = defenceValidator.isCorrect(tableController.getTable().getUnbeatenCards(), defender.getPlayerHand());
+        boolean canDefend = isCorrect(tableController.getTable().getUnbeatenCards(), defender.getPlayerHand());
         //If defender can't beat attacker cards...
         if (!canDefend) {
             print(defender.getName() + " не может отбиться.");
@@ -25,7 +24,7 @@ public class DefenceMove extends PlayerInputValidator implements MoveInterface {
                 print(defender.getName() + " не будет отбиваться");
                 defender.setRole("binder");
             } else {
-                boolean isDefendPossible = defenceValidator.isCorrect(tableController.getTable().getUnbeatenCards(), cards);
+                boolean isDefendPossible = isCorrect(tableController.getTable().getUnbeatenCards(), cards);
                 while (!isDefendPossible || cards.size() > tableController.getTable().getUnbeatenCards().size()) {
                     if (cards.isEmpty()) {
                         defender.setRole("binder");
@@ -34,7 +33,7 @@ public class DefenceMove extends PlayerInputValidator implements MoveInterface {
                     //...we ask defender for correct cards.
                     print("Так не получится отбиться");
                     cards = askForCards(defender);
-                    isDefendPossible = defenceValidator.isCorrect(tableController.getTable().getUnbeatenCards(), cards);
+                    isDefendPossible = isCorrect(tableController.getTable().getUnbeatenCards(), cards);
                 }
                 if(!defender.getRole().equals("binder")) {
                     print(defender.getName() + " отбился");
