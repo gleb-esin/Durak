@@ -42,7 +42,6 @@ public class PlayerInputValidator {
                             print(player.getName() + ", такой карты нет. Повторите ввод.");
                             cardIndexes = readNonEmptyLine();
                             cardIndexesArr = cardIndexes.split(" ");
-//                            Pattern pattern = Pattern.compile("^(0|[1-9]\\d*)$");
                             for (String st : cardIndexesArr) {
                                 matcher = pattern.matcher(st);
                                 if (matcher.find()) {
@@ -76,6 +75,4 @@ public class PlayerInputValidator {
         }
         return input;
     }
-
-
 }

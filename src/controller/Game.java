@@ -30,7 +30,6 @@ public class Game {
         MoveInterface attackMove = new AttackMove();
         MoveInterface defenceMove = new DefenceMove();
         MoveInterface throwMove = new ThrowMove();
-        ThrowValidator throwValidator = new ThrowValidator();
         Table table = tableController.getTable();
         gameloop:
         while (!playerController.isGameOver()) {
@@ -56,7 +55,11 @@ public class Game {
                     throwloop:
                     while (throwerCanThrow) {
                         int numberOfUnbeatenCards = table.getUnbeatenCards().size();
-                        throwInit(throwMove, thrower);
+                        clearConsole(thrower.getName());
+                        print(tableController.getTable());
+                        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + deckController.getDeck().getTrump());
+                        print(thrower);
+                        throwMove.move(thrower, tableController);
                         if (playerController.isPlayerWinner(thrower, deckController.getDeck())) break gameloop;
                         boolean throwerDidntThrow = numberOfUnbeatenCards == table.getUnbeatenCards().size();
                         if (throwerDidntThrow) break;
@@ -67,14 +70,14 @@ public class Game {
                                     playerController.setBinder(defender);
                                 } else {
                                     if (playerController.isPlayerWinner(defender, deckController.getDeck()))
-                                    break gameloop;
+                                        break gameloop;
                                 }
                             }
                         }
                         throwerCanThrow = isThrowPossible(tableController.getAll(), thrower.getPlayerHand()) && !defender.getPlayerHand().isEmpty();
                     }
-                    if(!throwerCanThrow)print(thrower.getName() + ", не может подкинуть.");
-                    if(defender.getRole().equals("binder")){
+                    if (!throwerCanThrow) print(thrower.getName() + ", не может подкинуть.");
+                    if (defender.getRole().equals("binder")) {
                         print(playerController.getBinder().getName() + " забирает карты " + tableController.getAll());
                         playerController.getBinder().getPlayerHand().addAll(tableController.getAll());
                     }
@@ -84,28 +87,7 @@ public class Game {
             deckController.fillUpTheHands(playerController.getQueue(), defender);
             playerController.changeTurn();
         }
-
-
-    //        if (playerController.getBinder() != null) {
-//            for (Player thrower : playerController.getQueue()) {
-//                if (throwValidator.isThrowPossible(tableController.getAll(), thrower.getPlayerHand())) {
-//                    throwInit(thrower);
-//                    if (playerController.isPlayerWinner(thrower, deckController.getDeck())) break;
-//                }
-//            }
-
-//        }
-    print(playerController.getWinner().
-
-    getName() +" победитель!");
-}
-
-    private void throwInit(MoveInterface throwMove, Player thrower) {
-        clearConsole(thrower.getName());
-        print(tableController.getTable());
-        print(thrower.getName() + ", Вы можете подкинуть. Козырь " + deckController.getDeck().getTrump());
-        print(thrower);
-        throwMove.move(thrower, tableController);
+        print(playerController.getWinner().getName() + " победитель!");
     }
 
     private void defenseInit(MoveInterface defenceMove) {

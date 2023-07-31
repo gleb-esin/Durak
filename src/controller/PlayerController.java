@@ -47,10 +47,10 @@ public class PlayerController {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).setTurn(i + 1);
         }
-        this.queue = new LinkedList<>(players);
-        setAttacker(this.queue.pop());
-        setDefender(this.queue.pop());
-        this.queue.addFirst(this.attacker);
+        queue = new LinkedList<>(players);
+        setAttacker(queue.pop());
+        setDefender(queue.pop());
+        queue.addFirst(attacker);
     }
 
     public Deque<Player> getQueue() {
@@ -67,7 +67,7 @@ public class PlayerController {
 
     public void setAttacker(Player player) {
         player.setRole("attacker");
-        this.attacker = player;
+        attacker = player;
     }
 
     public void setDefender(Player player) {
